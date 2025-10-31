@@ -26,12 +26,24 @@ class CreateTasksTable extends Migration
             ],
             'due_date' => [
                 'type' => 'DATE',
-                'null' => true,
+                'null' => false,
             ],
             'status' => [
                 'type'       => "ENUM('pending','completed')",
                 'default'    => 'pending',
                 'null'       => false,
+            ],
+            'name' => [
+                'type'       => 'VARCHAR',
+                'constraint' => '20',
+                'null'       => false,
+                'notnull'   => true,
+            ],
+            'email' => [
+                'type'       => 'VARCHAR',
+                'constraint' => '150',
+                'null'       => false,
+                'notnull'   => true,
             ],
             'created_at' => [
                 'type' => 'DATETIME',

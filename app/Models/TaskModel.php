@@ -12,7 +12,7 @@ class TaskModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['title', 'description', 'due_date', 'status'];
+    protected $allowedFields    = ['title', 'description', 'due_date', 'status', 'name', 'email'];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
@@ -32,6 +32,8 @@ class TaskModel extends Model
         'title' => 'required|max_length[255]|min_length[5]',
         'description' => 'max_length[255]',
         'due_date' => 'permit_empty|valid_date',
+        'name' => 'required|max_length[20]',
+        'email' => 'required|valid_email|max_length[150]',
     ];
     protected $validationMessages   = [
         'title' => [
@@ -40,11 +42,22 @@ class TaskModel extends Model
             'min_length' => 'el titulo debe tener al menos 5 caracteres.',
         ],
         'description' => [
+            'required' => 'La descripción es obligatoria.',
             'max_length' => 'La descripción no puede exceder los 255 caracteres.',
         ],
         'due_date' => [
             'valid_date' => 'Debe ser una fecha válida.',
-        ]
+            'required' => 'La fecha de vencimiento es obligatoria.',
+        ],
+        'name' => [
+            'required' => 'El nombre del responsable es obligatorio.',
+            'max_length' => 'El nombre no puede exceder los 20 caracteres.',
+        ],
+        'email' => [
+            'required' => 'El correo electrónico es obligatorio.',
+            'max_length' => 'El correo no puede exceder los 150 caracteres.',
+            'valid_email' => 'Debe ser un correo electrónico válido.',
+        ],
     ];
     protected $skipValidation       = false;
     protected $cleanValidationRules = true;

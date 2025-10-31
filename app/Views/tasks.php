@@ -27,6 +27,8 @@
 					<th scope="col">Descripción</th>
 					<th scope="col">Status</th>
 					<th scope="col">fecha</th>
+					<th scope="col">Responsable</th>
+					<th scope="col">email</th>
 					<th scope="col"></th>
 					<th scope="col"></th>
 				</tr>
@@ -62,6 +64,21 @@
 						<div class="mb-3">
 							<label for="taskDescription" class="form-label">Descripción</label>
 							<textarea class="form-control" id="taskDescription" rows="3"></textarea>
+						</div>
+						<div class="mb-3">
+							<label for="taskName" class="form-label">Responsable</label>
+							<input type="text" class="form-control" id="taskName" maxlength="20" >
+						</div>
+						<div class="mb-3">
+							<label for="taskEmail" class="form-label">Correo Electrónico</label>
+							<input type="email" class="form-control" id="taskEmail" require>
+						</div>
+						<div class="mb-3">
+							<label for="status" class="form-label">Status</label>
+							<select class="form-select" id="status">
+								<option value="pending" selected>Pendiente</option>
+								<option value="completed">Completada</option>
+							</select>
 						</div>
 						<div class="mb-3">
 							<label for="taskDueDate" class="form-label">Fecha de Vencimiento</label>
@@ -109,6 +126,8 @@
 								<td>${tarea.description || ''}</td>
 								<td>${tarea.status === 'pending' ? 'Pendiente' : 'Completada'}</td>
 								<td>${tarea.due_date || ''}</td>
+								<td>${tarea.name || ''}</td>
+								<td>${tarea.email || ''}</td>
 								<td><button class="btn btn-outline-success" onclick="modificarTarea(${tarea.id}, '${tarea.status}')">${tarea.status === 'pending' ? 'Completar' : 'Reabrir'}</button></td>
 								<td><button type="button" class="btn btn-outline-danger" onclick="eliminarTarea(${tarea.id})">Eliminar</button></td>
 							</tr>
@@ -143,17 +162,25 @@
 			const data = {
 				title: document.getElementById('taskTitle').value,
 				description: document.getElementById('taskDescription').value,
-				due_date: document.getElementById('taskDueDate').value
+				due_date: document.getElementById('taskDueDate').value,
+				status: document.getElementById('status').value,
+				name: document.getElementById('taskName').value,
+				email: document.getElementById('taskEmail').value,
 			};
 			fetch(apiUrl, {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify(data)
 			})
-			.then(() => {
-				form.reset();
+			.then(response => response.json())
+			.then(data => {
 				modalAgregar.hide();
+				form.reset();
 				cargarTareas();
+				console.log(data);
+				if(data.error){
+					alert(data.messages.error);
+				}
 			});
 		});
 	</script>

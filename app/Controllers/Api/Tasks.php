@@ -25,10 +25,10 @@ class Tasks extends ResourceController
     }
 
     public function create()
-    {
+    {   
         $data = $this->request->getJSON(true);
         if(!$data){
-            return $this->failValidationErrors('No se han proporcionado datos válidos');
+            return $this->failValidationErrors("existen campos vacios, favor de verificar su información");
         }
         if(!$this->model->insert($data)){
             return $this->failValidationErrors($this->model->errors());
